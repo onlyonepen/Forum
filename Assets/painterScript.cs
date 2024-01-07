@@ -106,23 +106,23 @@ public class painterScript : MonoBehaviour
         }
 
 
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            TouchRay = cam.ScreenPointToRay(touch.position);
-        }
-
-        //if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
+        //if (Input.touchCount > 0)
         //{
-        //    Debug.Log("Not hit");
-        //    return;
+        //    Touch touch = Input.GetTouch(0);
+        //    TouchRay = cam.ScreenPointToRay(touch.position);
         //}
 
-        if (!Physics.Raycast(TouchRay, out hit))
+        if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
         {
             Debug.Log("Not hit");
             return;
         }
+
+        //if (!Physics.Raycast(TouchRay, out hit))
+        //{
+        //    Debug.Log("Not hit");
+        //    return;
+        //}
 
         Renderer rend = hit.transform.GetComponent<Renderer>();
 
