@@ -981,9 +981,54 @@ MonoBehaviour:
   TargetObject:
     serializedVersion: 2
     m_Bits: 8
+  colors: []
   getStartingColorFromMaterial: 1
   fcp: {fileID: 1346881620}
   CurrentColor: {r: 1, g: 0, b: 0, a: 0}
+--- !u!1 &590540056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590540057}
+  - component: {fileID: 590540058}
+  m_Layer: 0
+  m_Name: MoverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590540057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590540056}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &590540058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590540056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9626ad85d2fec46b6097fabe19bb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &649253052 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7279165469454996333, guid: 6aa9bc366e6af8d4a8c9e40873ee5773,
@@ -2793,3 +2838,4 @@ SceneRoots:
   - {fileID: 1678714713}
   - {fileID: 1775399937}
   - {fileID: 20014453}
+  - {fileID: 590540057}
