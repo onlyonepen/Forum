@@ -211,6 +211,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dagger 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc17ce73416d0db4f9a16a6e61b0b8fd,
+        type: 3}
+      propertyPath: m_TagString
+      value: TargetObject
+      objectReference: {fileID: 0}
     - target: {fileID: 4306643203051859313, guid: cc17ce73416d0db4f9a16a6e61b0b8fd,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1029,6 +1034,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9626ad85d2fec46b6097fabe19bb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetObject: {fileID: 0}
+  MaxDistance: 30
 --- !u!224 &649253052 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7279165469454996333, guid: 6aa9bc366e6af8d4a8c9e40873ee5773,
