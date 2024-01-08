@@ -27,6 +27,7 @@ public class painterScript : MonoBehaviour
     private Ray TouchRay;
 
     RaycastHit hit;
+    bool CanPaint = true;
 
 
     public bool getStartingColorFromMaterial;
@@ -84,78 +85,91 @@ public class painterScript : MonoBehaviour
 
     public void Update()
     {
-        height = BrushSize;
-        colors = new Color32[BrushSize * height];
-        //Generate Brush
-        for (int i = 0; i < height; i++)
+        if (CanPaint == true)
         {
-            for (int j = 0; j < BrushSize; j++)
+            height = BrushSize;
+            colors = new Color32[BrushSize * height];
+            //Generate Brush
+            for (int i = 0; i < height; i++)
             {
-                colors[i * BrushSize + j] = CurrentColor;
+                for (int j = 0; j < BrushSize; j++)
+                {
+                    colors[i * BrushSize + j] = CurrentColor;
+                }
             }
+
+            if (getStartingColorFromMaterial)
+            {
+                fcp.color = CurrentColor;
+            }
+
+            if (!Input.GetKey(KeyCode.Mouse0))
+            {
+                return;
+            }
+
+
+            //if (Input.touchCount > 0)
+            //{
+            //    Touch touch = Input.GetTouch(0);
+            //    TouchRay = cam.ScreenPointToRay(touch.position);
+            //}
+
+            if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                Debug.Log("Not hit");
+                return;
+            }
+
+            //if (!Physics.Raycast(TouchRay, out hit))
+            //{
+            //    Debug.Log("Not hit");
+            //    return;
+            //}
+
+            Renderer rend = hit.transform.GetComponent<Renderer>();
+
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+
+            if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
+            {
+                Debug.Log("Unable to access textures");
+                return;
+            }
+
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Texture2D tex = rend.material.mainTexture as Texture2D;
+                Vector2 pixelUV = hit.textureCoord;
+                pixelUV.x *= tex.width;
+                pixelUV.y *= tex.height;
+                //Color BaseColor = tex.GetPixels((int)pixelUV.x, (int)pixelUV.y);
+
+                //tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, CurrentColor);
+                tex.SetPixels32((int)pixelUV.x, (int)pixelUV.y, BrushSize, height, colors);
+                tex.Apply();
+                Debug.Log("Texture Cordinate : " + pixelUV);
+                Debug.Log("Hit Point : " + hit.point);
+                Debug.Log("Color : " + CurrentColor);
+            }
+
         }
 
-        if (getStartingColorFromMaterial)
-        {
-            fcp.color = CurrentColor;
-        }
-
-        if (!Input.GetKey(KeyCode.Mouse0))
-        { 
-            return;
-        }
-
-
-        //if (Input.touchCount > 0)
-        //{
-        //    Touch touch = Input.GetTouch(0);
-        //    TouchRay = cam.ScreenPointToRay(touch.position);
-        //}
-
-        if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
-        {
-            Debug.Log("Not hit");
-            return;
-        }
-
-        //if (!Physics.Raycast(TouchRay, out hit))
-        //{
-        //    Debug.Log("Not hit");
-        //    return;
-        //}
-
-        Renderer rend = hit.transform.GetComponent<Renderer>();
-
-        MeshCollider meshCollider = hit.collider as MeshCollider;
-
-        if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
-        {
-            Debug.Log("Unable to access textures");
-            return;
-        }
-
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            Texture2D tex = rend.material.mainTexture as Texture2D;
-            Vector2 pixelUV = hit.textureCoord;
-            pixelUV.x *= tex.width;
-            pixelUV.y *= tex.height;
-            //Color BaseColor = tex.GetPixels((int)pixelUV.x, (int)pixelUV.y);
-
-            //tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, CurrentColor);
-            tex.SetPixels32((int)pixelUV.x, (int)pixelUV.y, BrushSize, height, colors);
-            tex.Apply();
-            Debug.Log("Texture Cordinate : " + pixelUV);
-            Debug.Log("Hit Point : " + hit.point);
-            Debug.Log("Color : " + CurrentColor);
-        }
-
-        
 
     }
 
     private void OnChangeColor(Color co)
     {
         CurrentColor = co;
+    }
+
+    public void CanPaintSwitch()
+    {
+        CanPaint = !CanPaint;
+    }
+
+    public void PaintSizeManager(int PaintSizeFromSlider)
+    {
+        BrushSize = PaintSizeFromSlider;
     }
 }

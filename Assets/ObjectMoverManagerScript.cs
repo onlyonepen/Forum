@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ObjectMoverManagerScript : MonoBehaviour
 {
+    [HideInInspector]
     public GameObject TargetObject;
     public float MaxDistance = 30;
     bool IsInMoveState = false;
