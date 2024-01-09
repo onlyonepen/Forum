@@ -9,6 +9,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
     [HideInInspector]
     public GameObject TargetObject;
     public float MaxDistance = 30;
+    public Camera ARCamera;
     bool IsInMoveState = false;
 
     RaycastHit hit;
@@ -32,8 +33,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
         if (IsInMoveState == true)
         {
             //MoveObjectLogic
-            Point = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
-            var ray = Physics.Raycast(Camera.main.transform.position,Point,MaxDistance,NotObject);
+            Point = ARCamera.ScreenToWorldPoint(new Vector3(0, 0, ARCamera.nearClipPlane));
+            var ray = Physics.Raycast(ARCamera.transform.position,Point,MaxDistance,NotObject);
             TargetObject.transform.position = hit.point;
 
             //RotateObjectLogic
@@ -52,5 +53,13 @@ public class ObjectMoverManagerScript : MonoBehaviour
     public void IsMovingSwitch()
     {
         IsInMoveState = !IsInMoveState;
+        if (IsInMoveState)
+        {
+            Debug.Log("Able to move around");
+        }
+        if (!IsInMoveState)
+        {
+            Debug.Log("Disable Movement");
+        }
     }
 }
