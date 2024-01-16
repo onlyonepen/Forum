@@ -33,9 +33,17 @@ public class ObjectMoverManagerScript : MonoBehaviour
         if (IsInMoveState == true)
         {
             //MoveObjectLogic
-            Point = ARCamera.ScreenToWorldPoint(new Vector3(0, 0, ARCamera.nearClipPlane));
-            var ray = Physics.Raycast(ARCamera.transform.position,Point,MaxDistance,NotObject);
-            TargetObject.transform.position = hit.point;
+            //Ray ray = ARCamera.ScreenPointToRay(new Vector3(-1/2 ,-1/2 , 0));
+            if (Physics.Raycast(ARCamera.ScreenPointToRay(new Vector3(-1/2,-1/2,0))))
+            {
+                TargetObject.transform.position = hit.point;
+                Debug.Log("Placed");
+            }
+            else if (!Physics.Raycast(ARCamera.ScreenPointToRay(new Vector3(-1 / 2, -1 / 2, 0))))
+            {
+                TargetObject.transform.position = (Camera.main.transform.eulerAngles.normalized * MaxDistance) + Camera.main.transform.position;
+                Debug.Log("Float Place");
+            }
 
             //RotateObjectLogic
             if (Input.touchCount > 0)

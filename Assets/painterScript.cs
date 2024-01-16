@@ -166,6 +166,14 @@ public class painterScript : MonoBehaviour
     public void CanPaintSwitch()
     {
         CanPaint = !CanPaint;
+        if (CanPaint)
+        {
+            Debug.Log("Enable Paint");
+        }
+        if (!CanPaint)
+        {
+            Debug.Log("Disable Paint");
+        }
     }
 
     public void PaintSizeManager(int PaintSizeFromSlider)
