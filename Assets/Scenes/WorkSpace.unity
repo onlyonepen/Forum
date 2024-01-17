@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetObject: {fileID: 0}
-  MaxDistance: 30
+  MaxDistance: 5
   ARCamera: {fileID: 22732920}
 --- !u!224 &649253052 stripped
 RectTransform:
