@@ -206,10 +206,20 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9f28a45e12f22fe4c83acf8b1f16d08f, type: 2}
+    - target: {fileID: -1599826595754709761, guid: cc17ce73416d0db4f9a16a6e61b0b8fd,
+        type: 3}
+      propertyPath: m_TagString
+      value: TargetObject
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cc17ce73416d0db4f9a16a6e61b0b8fd,
         type: 3}
       propertyPath: m_Name
       value: Dagger 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc17ce73416d0db4f9a16a6e61b0b8fd,
+        type: 3}
+      propertyPath: m_TagString
+      value: TargetObject
       objectReference: {fileID: 0}
     - target: {fileID: 4306643203051859313, guid: cc17ce73416d0db4f9a16a6e61b0b8fd,
         type: 3}
@@ -569,6 +579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 195963720}
   - component: {fileID: 195963721}
+  - component: {fileID: 195963722}
   m_Layer: 5
   m_Name: BrushsizeSlider
   m_TagString: Untagged
@@ -643,12 +654,25 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1944636136}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0.8
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &195963722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195963719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36d67a40e514a346b246b0521a0b95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PainterManager: {fileID: 521848624}
 --- !u!1 &215523965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,7 +1098,7 @@ GameObject:
   - component: {fileID: 521848625}
   - component: {fileID: 521848626}
   m_Layer: 0
-  m_Name: Painter
+  m_Name: PainterManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1117,9 +1141,57 @@ MonoBehaviour:
   colors: []
   ModeButtonGUI: {fileID: 1137186157}
   mode: 0
+
   getStartingColorFromMaterial: 1
   fcp: {fileID: 1346881620}
   CurrentColor: {r: 1, g: 0, b: 0, a: 0}
+--- !u!1 &590540056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590540057}
+  - component: {fileID: 590540058}
+  m_Layer: 0
+  m_Name: MoverManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590540057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590540056}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &590540058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590540056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9626ad85d2fec46b6097fabe19bb49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetObject: {fileID: 0}
+  MaxDistance: 2
+  ARCamera: {fileID: 22732920}
 --- !u!224 &649253052 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7279165469454996333, guid: 6aa9bc366e6af8d4a8c9e40873ee5773,
@@ -1417,6 +1489,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1032209923}
         m_TargetAssemblyTypeName: OpenColourPickerScript, Assembly-CSharp
         m_MethodName: OpenColorPicker
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 590540058}
+        m_TargetAssemblyTypeName: ObjectMoverManagerScript, Assembly-CSharp
+        m_MethodName: IsMovingSwitch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2070,9 +2154,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2097079329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -60, y: -100}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -100, y: -250}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1312289128
@@ -2118,7 +2202,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1312289129}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 590540058}
+        m_TargetAssemblyTypeName: ObjectMoverManagerScript, Assembly-CSharp
+        m_MethodName: IsMovingSwitch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 521848626}
+        m_TargetAssemblyTypeName: painterScript, Assembly-CSharp
+        m_MethodName: CanPaintSwitch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1312289129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2139,8 +2247,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 908cb1a43e4a89349ba0a942e02319b4, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3066,3 +3174,4 @@ SceneRoots:
   - {fileID: 1678714713}
   - {fileID: 1775399937}
   - {fileID: 20014453}
+  - {fileID: 590540057}

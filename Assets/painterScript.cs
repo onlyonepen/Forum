@@ -28,6 +28,7 @@ public class painterScript : MonoBehaviour
     private Ray TouchRay;
 
     RaycastHit hit;
+    bool CanPaint = true;
 
     // For change brush (and eraser) buttons
     [SerializeField]
@@ -102,25 +103,28 @@ public class painterScript : MonoBehaviour
 
     public void Update()
     {
-        if (mode != 1)
+        if (CanPaint == true)
         {
-            if (getStartingColorFromMaterial)
+            if (mode != 1)
             {
-                fcp.color = CurrentColor;
+                if (getStartingColorFromMaterial)
+                {
+                    fcp.color = CurrentColor;
+                }
             }
-        }
-        
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            TouchRay = cam.ScreenPointToRay(touch.position);
 
-            if (!Physics.Raycast(TouchRay, out hit))
+            if (Input.touchCount > 0)
             {
-                Debug.Log("Not hit");
-                return;
+                Touch touch = Input.GetTouch(0);
+                TouchRay = cam.ScreenPointToRay(touch.position);
+
+                if (!Physics.Raycast(TouchRay, out hit))
+                {
+                    Debug.Log("Not hit");
+                    return;
+                }
+                ApplyPaintToHitpoint(hit);
             }
-            ApplyPaintToHitpoint(hit);
         }
         
 
@@ -220,5 +224,21 @@ public class painterScript : MonoBehaviour
             mode += 1;
         }
         ModeButtonGUI.text = brushes[mode];
+    public void CanPaintSwitch()
+    {
+        CanPaint = !CanPaint;
+        if (CanPaint)
+        {
+            Debug.Log("Enable Paint");
+        }
+        if (!CanPaint)
+        {
+            Debug.Log("Disable Paint");
+        }
+    }
+
+    public void PaintSizeManager(int PaintSizeFromSlider)
+    {
+        BrushSize = PaintSizeFromSlider;
     }
 }
