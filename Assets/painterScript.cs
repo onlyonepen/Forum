@@ -12,6 +12,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.ARCore;
+using TMPro;
 
 public class painterScript : MonoBehaviour
 {
@@ -29,54 +30,71 @@ public class painterScript : MonoBehaviour
     RaycastHit hit;
     bool CanPaint = true;
 
+    // For change brush (and eraser) buttons
+    [SerializeField]
+    private TextMeshProUGUI ModeButtonGUI;
 
+    [SerializeField]
+    private int mode;
+
+    // Color Picker
     public bool getStartingColorFromMaterial;
     public FlexibleColorPicker fcp;
     public Color CurrentColor;
+
+    // Took the variable inits outside of the Start() and fixed the processing system so it actually works right
+    // Dont change
+
+    private Dictionary<Texture2D, Texture2D> textureDict = new Dictionary<Texture2D, Texture2D>();
+    private Dictionary<Texture2D, Texture2D> reversedTextureDict = new Dictionary<Texture2D, Texture2D>();
+    private List<Texture2D> dictKeys;
+    private string[] brushes = {"Paint", "Erase"};
 
 
     void Start()
     {
         fcp.onColorChange.AddListener(OnChangeColor);
 
-
+        // Process Model
         Transform trainsform = Model.transform;
         //get zombie model
-        foreach (Transform childTransform in trainsform)
-        {
-            if (childTransform.gameObject.GetComponent<SkinnedMeshRenderer>() != null && childTransform != trainsform)
-            {
+        foreach (Transform childTransform in trainsform){
+            if (childTransform.gameObject.GetComponent<SkinnedMeshRenderer>() != null && childTransform != trainsform){
                 childTransform.transform.position = trainsform.position;
                 //Go through each child gameObject and see if have SkinnedMeshRenderer
                 //if it does, add a meshcollider using the mesh from the SkinnedMeshRenderer
-
+                
                 MeshCollider collider = childTransform.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
                 SkinnedMeshRenderer skinnedMeshRenderer = childTransform.gameObject.GetComponent<SkinnedMeshRenderer>();
                 collider.sharedMesh = skinnedMeshRenderer.sharedMesh;
             }
-
+            
             //For further development, change texture to be writable (by cloning texture to seperate one, for reverting and saving also)
-            if (childTransform.gameObject.GetComponent<Renderer>() != null)
-            {
-                Dictionary<Texture2D, Texture2D> textureDict = new Dictionary<Texture2D, Texture2D>();
+            // Note: I think we did the above already
+
+            // Will check if texture was already clone so we don't clone textures more than once
+            if(childTransform.gameObject.GetComponent<Renderer>() != null){
                 Material material = childTransform.gameObject.GetComponent<Renderer>().material;
                 Texture2D mainTexture = (Texture2D)material.mainTexture;
-                List<Texture2D> dictKeys = new List<Texture2D>(textureDict.Keys);
-                if (dictKeys.Contains(mainTexture))
-                {
+                dictKeys = new List<Texture2D>(textureDict.Keys);
+                if (dictKeys.Contains(mainTexture)){
+                    material.SetTexture("_MainTex", textureDict[mainTexture]);
                     Debug.Log("repeats");
-                }
-                else
-                {
+                }else{
                     Texture2D clone = new Texture2D(mainTexture.width, mainTexture.height);
+                    clone.name = mainTexture.name + "clone";
                     clone.SetPixels(mainTexture.GetPixels());
                     clone.Apply();
                     textureDict.Add(mainTexture, clone);
-                    material.SetTexture("_MainTex", clone);
+                    material.SetTexture("_MainTex",clone);
                 }
-
+                
             }
-
+        }
+        dictKeys = new List<Texture2D>(textureDict.Keys);
+        // Create reversed dictionary for erase lookup
+        foreach (var key in dictKeys){
+            reversedTextureDict.Add(textureDict[key], key);
         }
 
     }
@@ -87,47 +105,70 @@ public class painterScript : MonoBehaviour
     {
         if (CanPaint == true)
         {
-            height = BrushSize;
-            colors = new Color32[BrushSize * height];
-            //Generate Brush
-            for (int i = 0; i < height; i++)
+            if (mode != 1)
             {
-                for (int j = 0; j < BrushSize; j++)
+                if (getStartingColorFromMaterial)
                 {
-                    colors[i * BrushSize + j] = CurrentColor;
+                    fcp.color = CurrentColor;
                 }
             }
 
-            if (getStartingColorFromMaterial)
+            if (Input.touchCount > 0)
             {
-                fcp.color = CurrentColor;
-            }
+                Touch touch = Input.GetTouch(0);
+                TouchRay = cam.ScreenPointToRay(touch.position);
 
-            if (!Input.GetKey(KeyCode.Mouse0))
+                if (!Physics.Raycast(TouchRay, out hit))
+                {
+                    Debug.Log("Not hit");
+                    return;
+                }
+                ApplyPaintToHitpoint(hit);
+            }
+        }
+        
+
+        /*
+        // Code for testing on PC
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
             {
+                Debug.Log("Not hit");
                 return;
             }
+            ApplyPaintToHitpoint(hit);
+        }
+        */
 
-
-            //if (Input.touchCount > 0)
-            //{
-            //    Touch touch = Input.GetTouch(0);
-            //    TouchRay = cam.ScreenPointToRay(touch.position);
-            //}
-
+        // Original code -> moved to function
+        /*
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
             if (!Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition), out hit))
             {
                 Debug.Log("Not hit");
                 return;
             }
 
-            //if (!Physics.Raycast(TouchRay, out hit))
-            //{
-            //    Debug.Log("Not hit");
-            //    return;
-            //}
+            Texture2D tex = rend.material.mainTexture as Texture2D;
+            Vector2 pixelUV = hit.textureCoord;
+            pixelUV.x *= tex.width;
+            pixelUV.y *= tex.height;
 
-            Renderer rend = hit.transform.GetComponent<Renderer>();
+            //Color BaseColor = tex.GetPixels((int)pixelUV.x, (int)pixelUV.y);
+            //tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, CurrentColor);
+
+            tex.SetPixels32((int)pixelUV.x, (int)pixelUV.y, BrushSize, height, colors);
+            tex.Apply();
+        }
+        */
+    }
+
+    private void ApplyPaintToHitpoint(RaycastHit hit)
+    {
+        // Get Editing textures
+        Renderer rend = hit.transform.GetComponent<Renderer>();
 
             MeshCollider meshCollider = hit.collider as MeshCollider;
 
@@ -137,25 +178,33 @@ public class painterScript : MonoBehaviour
                 return;
             }
 
-            if (Input.GetKey(KeyCode.Mouse0))
+        Texture2D tex = rend.material.mainTexture as Texture2D;
+
+        // Get texture coords
+        Vector2 pixelUV = hit.textureCoord;
+        pixelUV.x *= tex.width;
+        pixelUV.y *= tex.height;
+
+        // Generate Brush
+        colors = new Color32[BrushSize * BrushSize];
+        for (int i = 0; i < BrushSize; i++)
+        {
+            for (int j = 0; j < BrushSize; j++)
             {
-                Texture2D tex = rend.material.mainTexture as Texture2D;
-                Vector2 pixelUV = hit.textureCoord;
-                pixelUV.x *= tex.width;
-                pixelUV.y *= tex.height;
-                //Color BaseColor = tex.GetPixels((int)pixelUV.x, (int)pixelUV.y);
-
-                //tex.SetPixel((int)pixelUV.x, (int)pixelUV.y, CurrentColor);
-                tex.SetPixels32((int)pixelUV.x, (int)pixelUV.y, BrushSize, height, colors);
-                tex.Apply();
-                Debug.Log("Texture Cordinate : " + pixelUV);
-                Debug.Log("Hit Point : " + hit.point);
-                Debug.Log("Color : " + CurrentColor);
-            }
-
+                if (mode == 1)
+                {
+                    colors[i * BrushSize + j] = reversedTextureDict[tex].GetPixel((int) pixelUV.x + j, (int) pixelUV.y + i);
+                }
+                else
+                {
+                    colors[i * BrushSize + j] = CurrentColor;
+                }
+            }  
         }
 
-
+        // Apply textures
+        tex.SetPixels32((int)pixelUV.x, (int)pixelUV.y, BrushSize, BrushSize, colors);
+        tex.Apply();
     }
 
     private void OnChangeColor(Color co)
@@ -163,6 +212,18 @@ public class painterScript : MonoBehaviour
         CurrentColor = co;
     }
 
+    // Change Brush code
+    public void ChangeBrush()
+    {
+        if (mode == brushes.Length - 1)
+        {
+            mode = 0;
+        }
+        else
+        {
+            mode += 1;
+        }
+        ModeButtonGUI.text = brushes[mode];
     public void CanPaintSwitch()
     {
         CanPaint = !CanPaint;
