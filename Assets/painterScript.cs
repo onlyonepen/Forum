@@ -48,7 +48,7 @@ public class painterScript : MonoBehaviour
     private Dictionary<Texture2D, Texture2D> textureDict = new Dictionary<Texture2D, Texture2D>();
     private Dictionary<Texture2D, Texture2D> reversedTextureDict = new Dictionary<Texture2D, Texture2D>();
     private List<Texture2D> dictKeys;
-    private string[] brushes = {"Paint", "Erase"};
+    private string[] brushes = { "Paint", "Erase" };
 
 
     void Start()
@@ -58,42 +58,42 @@ public class painterScript : MonoBehaviour
         // Process Model
         Transform trainsform = Model.transform;
         //get zombie model
-        foreach (Transform childTransform in trainsform){
-            if (childTransform.gameObject.GetComponent<SkinnedMeshRenderer>() != null && childTransform != trainsform){
+        foreach (Transform childTransform in trainsform) {
+            if (childTransform.gameObject.GetComponent<SkinnedMeshRenderer>() != null && childTransform != trainsform) {
                 childTransform.transform.position = trainsform.position;
                 //Go through each child gameObject and see if have SkinnedMeshRenderer
                 //if it does, add a meshcollider using the mesh from the SkinnedMeshRenderer
-                
+
                 MeshCollider collider = childTransform.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
                 SkinnedMeshRenderer skinnedMeshRenderer = childTransform.gameObject.GetComponent<SkinnedMeshRenderer>();
                 collider.sharedMesh = skinnedMeshRenderer.sharedMesh;
             }
-            
+
             //For further development, change texture to be writable (by cloning texture to seperate one, for reverting and saving also)
             // Note: I think we did the above already
 
             // Will check if texture was already clone so we don't clone textures more than once
-            if(childTransform.gameObject.GetComponent<Renderer>() != null){
+            if (childTransform.gameObject.GetComponent<Renderer>() != null) {
                 Material material = childTransform.gameObject.GetComponent<Renderer>().material;
                 Texture2D mainTexture = (Texture2D)material.mainTexture;
                 dictKeys = new List<Texture2D>(textureDict.Keys);
-                if (dictKeys.Contains(mainTexture)){
+                if (dictKeys.Contains(mainTexture)) {
                     material.SetTexture("_MainTex", textureDict[mainTexture]);
                     Debug.Log("repeats");
-                }else{
+                } else {
                     Texture2D clone = new Texture2D(mainTexture.width, mainTexture.height);
                     clone.name = mainTexture.name + "clone";
                     clone.SetPixels(mainTexture.GetPixels());
                     clone.Apply();
                     textureDict.Add(mainTexture, clone);
-                    material.SetTexture("_MainTex",clone);
+                    material.SetTexture("_MainTex", clone);
                 }
-                
+
             }
         }
         dictKeys = new List<Texture2D>(textureDict.Keys);
         // Create reversed dictionary for erase lookup
-        foreach (var key in dictKeys){
+        foreach (var key in dictKeys) {
             reversedTextureDict.Add(textureDict[key], key);
         }
 
@@ -126,7 +126,7 @@ public class painterScript : MonoBehaviour
                 ApplyPaintToHitpoint(hit);
             }
         }
-        
+
 
         /*
         // Code for testing on PC
@@ -170,13 +170,13 @@ public class painterScript : MonoBehaviour
         // Get Editing textures
         Renderer rend = hit.transform.GetComponent<Renderer>();
 
-            MeshCollider meshCollider = hit.collider as MeshCollider;
+        MeshCollider meshCollider = hit.collider as MeshCollider;
 
-            if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
-            {
-                Debug.Log("Unable to access textures");
-                return;
-            }
+        if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
+        {
+            Debug.Log("Unable to access textures");
+            return;
+        }
 
         Texture2D tex = rend.material.mainTexture as Texture2D;
 
@@ -193,13 +193,13 @@ public class painterScript : MonoBehaviour
             {
                 if (mode == 1)
                 {
-                    colors[i * BrushSize + j] = reversedTextureDict[tex].GetPixel((int) pixelUV.x + j, (int) pixelUV.y + i);
+                    colors[i * BrushSize + j] = reversedTextureDict[tex].GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i);
                 }
                 else
                 {
                     colors[i * BrushSize + j] = CurrentColor;
                 }
-            }  
+            }
         }
 
         // Apply textures
@@ -224,6 +224,7 @@ public class painterScript : MonoBehaviour
             mode += 1;
         }
         ModeButtonGUI.text = brushes[mode];
+    }
     public void CanPaintSwitch()
     {
         CanPaint = !CanPaint;

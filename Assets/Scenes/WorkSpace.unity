@@ -1141,10 +1141,9 @@ MonoBehaviour:
   colors: []
   ModeButtonGUI: {fileID: 1137186157}
   mode: 0
-
-  getStartingColorFromMaterial: 1
-  fcp: {fileID: 1346881620}
-  CurrentColor: {r: 1, g: 0, b: 0, a: 0}
+  getStartingColorFromMaterial: 0
+  fcp: {fileID: 0}
+  CurrentColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &590540056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1497,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 590540058}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectMoverManagerScript, Assembly-CSharp
         m_MethodName: IsMovingSwitch
         m_Mode: 1
