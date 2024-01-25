@@ -4,6 +4,7 @@ using System.Drawing;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectMoverManagerScript : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
     public float MaxDistance = 2;
     public Camera ARCamera;
     bool IsInMoveState = false;
+    public GameObject PainterManager;
+    public GameObject PanelPullButton;
 
     RaycastHit hit;
     Vector3 Point;
@@ -73,11 +76,15 @@ public class ObjectMoverManagerScript : MonoBehaviour
         if (IsInMoveState)
         {
             Debug.Log("Able to move around");
+            PainterManager.SetActive(false);
+            PanelPullButton.GetComponent<Button>().enabled = false;
         }
         if (!IsInMoveState)
         {
             TargetObject.transform.parent = null;
             Debug.Log("Disable Movement");
+            PainterManager.SetActive(true);
+            PanelPullButton.GetComponent<Button>().enabled = true;
         }
     }
 }

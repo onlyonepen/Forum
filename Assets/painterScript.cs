@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.ARCore;
 using TMPro;
+using UnityEngine.UI;
 
 public class painterScript : MonoBehaviour
 {
@@ -41,6 +42,11 @@ public class painterScript : MonoBehaviour
     public bool getStartingColorFromMaterial;
     public FlexibleColorPicker fcp;
     public Color CurrentColor;
+
+    public GameObject ModeSelector;
+    public Sprite Painter;
+    public Sprite Eraser;
+    public GameObject MoverButton;
 
     // Took the variable inits outside of the Start() and fixed the processing system so it actually works right
     // Dont change
@@ -218,12 +224,13 @@ public class painterScript : MonoBehaviour
         if (mode == brushes.Length - 1)
         {
             mode = 0;
+            ModeSelector.GetComponent<Image>().sprite = Painter;
         }
         else
         {
             mode += 1;
+            ModeSelector.GetComponent<Image>().sprite = Eraser;
         }
-        ModeButtonGUI.text = brushes[mode];
     }
     public void CanPaintSwitch()
     {
@@ -231,10 +238,12 @@ public class painterScript : MonoBehaviour
         if (CanPaint)
         {
             Debug.Log("Enable Paint");
+            MoverButton.GetComponent<Button>().enabled = false;
         }
         if (!CanPaint)
         {
             Debug.Log("Disable Paint");
+            MoverButton.GetComponent<Button>().enabled = true;
         }
     }
 
