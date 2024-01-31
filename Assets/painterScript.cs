@@ -231,7 +231,9 @@ public class painterScript : MonoBehaviour
             mode += 1;
             ModeSelector.GetComponent<Image>().sprite = Eraser;
         }
+        ModeButtonGUI.text = brushes[mode];
     }
+
     public void CanPaintSwitch()
     {
         CanPaint = !CanPaint;
