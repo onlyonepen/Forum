@@ -1132,7 +1132,7 @@ MonoBehaviour:
   cam: {fileID: 22732920}
   Model: {fileID: 274085489}
   BrushSize: 100
-  Transparentcy: 100
+  Transparentcy: 0
   TargetObject:
     serializedVersion: 2
     m_Bits: 8

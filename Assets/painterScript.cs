@@ -203,7 +203,7 @@ public class painterScript : MonoBehaviour
                 }
                 else
                 {
-                    colors[i * BrushSize + j] = CurrentColor;
+                    colors[i * BrushSize + j] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i), Transparentcy);
                 }
             }
         }
