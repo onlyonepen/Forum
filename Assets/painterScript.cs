@@ -109,6 +109,7 @@ public class painterScript : MonoBehaviour
 
     public void Update()
     {
+        Transparentcy = CurrentColor.a;
         if (CanPaint == true)
         {
             if (mode != 1)
