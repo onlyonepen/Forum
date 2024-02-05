@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 163900428}
   - component: {fileID: 163900427}
   m_Layer: 5
-  m_Name: Drawer
+  m_Name: Closet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ac11b30db83587545bd4fb0bc5e511fe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cdc6fc1a810f3904ca4bfc90ab8a3c54, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e142ebf2869254a820f21d30ff6826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoToScene: 
+  GoToScene: Closet
 --- !u!114 &163900428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,7 +688,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Gamer Chair
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -897,7 +899,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Closet
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1064,7 +1068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e142ebf2869254a820f21d30ff6826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoToScene: WorkSpace
+  GoToScene: WoodenChair
 --- !u!114 &752740747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,7 +1182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Blue office chair
+  m_text: Wooden Chair
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1312,7 +1316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Wooden Table
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1547,7 +1551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e142ebf2869254a820f21d30ff6826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoToScene: 
+  GoToScene: GamingChair
 --- !u!114 &1336070180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1606,7 +1610,7 @@ GameObject:
   - component: {fileID: 1357184344}
   - component: {fileID: 1357184343}
   m_Layer: 5
-  m_Name: Shelf
+  m_Name: Cabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1652,7 +1656,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 44431023ee96b6b48b0d7cc14327c52c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af05fef1e878984488c92b1c390d6182, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1682,7 +1686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e142ebf2869254a820f21d30ff6826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoToScene: 
+  GoToScene: CabinetWood
 --- !u!114 &1357184344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1878,7 +1882,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Sci-fi Sofa
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2154,7 +2160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e142ebf2869254a820f21d30ff6826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoToScene: 
+  GoToScene: SciSofa
 --- !u!114 &1707710883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2256,7 +2262,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Cabinet
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2423,7 +2431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e142ebf2869254a820f21d30ff6826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoToScene: 
+  GoToScene: WoodenTable
 --- !u!114 &1972419610
 MonoBehaviour:
   m_ObjectHideFlags: 0

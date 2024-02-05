@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 7ddde11b68270cc4d813c03178f40bea
   - enabled: 1
-    path: Assets/Scenes/WorkSpace.unity
+    path: Assets/Scenes/ModelScenes/WoodenChair.unity
     guid: e2306f5bf6148a642a87010dc12edd7b
   - enabled: 1
     path: Assets/Scenes/SceneSelector.unity
