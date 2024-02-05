@@ -22,7 +22,7 @@ public class painterScript : MonoBehaviour
     [SerializeField]
     private GameObject Model;
     public int BrushSize = 10;
-    public float Transparentcy = 1;
+    public float Transparentcy = 255;
     public LayerMask TargetObject;
     private int height;
     public Color32[] colors;
@@ -109,7 +109,7 @@ public class painterScript : MonoBehaviour
 
     public void Update()
     {
-        Transparentcy = CurrentColor.a;
+        
         if (CanPaint == true)
         {
             if (mode != 1)
@@ -133,7 +133,7 @@ public class painterScript : MonoBehaviour
                 ApplyPaintToHitpoint(hit);
             }
         }
-
+        Transparentcy = CurrentColor.a;
 
         /*
         // Code for testing on PC
@@ -204,7 +204,7 @@ public class painterScript : MonoBehaviour
                 }
                 else
                 {
-                    colors[i * BrushSize + j] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i), Transparentcy);
+                    colors[i * BrushSize + j] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i), Transparentcy * 255);
                 }
             }
         }
