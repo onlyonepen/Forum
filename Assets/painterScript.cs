@@ -65,14 +65,13 @@ public class painterScript : MonoBehaviour
         Transform trainsform = Model.transform;
         //get zombie model
         foreach (Transform childTransform in trainsform) {
-            if (childTransform.gameObject.GetComponent<SkinnedMeshRenderer>() != null && childTransform != trainsform) {
-                childTransform.transform.position = trainsform.position;
+            if (childTransform.gameObject.GetComponent<MeshFilter>() != null && childTransform != trainsform) {
                 //Go through each child gameObject and see if have SkinnedMeshRenderer
                 //if it does, add a meshcollider using the mesh from the SkinnedMeshRenderer
 
                 MeshCollider collider = childTransform.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
-                SkinnedMeshRenderer skinnedMeshRenderer = childTransform.gameObject.GetComponent<SkinnedMeshRenderer>();
-                collider.sharedMesh = skinnedMeshRenderer.sharedMesh;
+                MeshFilter meshFilter = childTransform.gameObject.GetComponent<MeshFilter>();
+                collider.sharedMesh = meshFilter.mesh;
             }
 
             //For further development, change texture to be writable (by cloning texture to seperate one, for reverting and saving also)
@@ -204,7 +203,7 @@ public class painterScript : MonoBehaviour
                 }
                 else
                 {
-                    colors[i * BrushSize + j] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i), Transparentcy * 255);
+                    colors[i * BrushSize + j] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i), Transparentcy);
                 }
             }
         }
@@ -232,7 +231,6 @@ public class painterScript : MonoBehaviour
             mode += 1;
             ModeSelector.GetComponent<Image>().sprite = Eraser;
         }
-        ModeButtonGUI.text = brushes[mode];
     }
 
     public void CanPaintSwitch()
