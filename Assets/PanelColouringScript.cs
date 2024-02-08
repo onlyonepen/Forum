@@ -15,6 +15,6 @@ public class PanelColouringScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //gameObject.GetComponent<Image>().color = colorPicker.color;
+        gameObject.GetComponent<Image>().color = colorPicker.color;
     }
 }

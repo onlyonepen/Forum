@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PaintSizeSliderScript : MonoBehaviour
 {
     public GameObject PainterManager;
-    int FlooredSliderValue;
+    [SerializeField] private int FlooredSliderValue;
     // Start is called before the first frame update
     void Start()
     {

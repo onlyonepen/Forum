@@ -111,13 +111,6 @@ public class painterScript : MonoBehaviour
         
         if (CanPaint == true)
         {
-            if (mode != 1)
-            {
-                if (getStartingColorFromMaterial)
-                {
-                    fcp.color = CurrentColor;
-                }
-            }
 
             if (Input.touchCount > 0)
             {
@@ -132,7 +125,8 @@ public class painterScript : MonoBehaviour
                 ApplyPaintToHitpoint(hit);
             }
         }
-        Transparentcy = CurrentColor.a;
+        fcp.color = CurrentColor;
+        Transparentcy = 1 - CurrentColor.a;
 
         /*
         // Code for testing on PC
