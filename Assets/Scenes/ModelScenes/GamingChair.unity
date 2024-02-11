@@ -971,7 +971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetObject: {fileID: 0}
-  MaxDistance: 0.4
+  MaxDistance: 2
   ARCamera: {fileID: 22732920}
   PainterManager: {fileID: 521848624}
   PanelPullButton: {fileID: 2059227612}
@@ -2479,7 +2479,7 @@ GameObject:
   - component: {fileID: 1623943588973903106}
   - component: {fileID: 483725712652857249}
   - component: {fileID: 3752466086468333294}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L_handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2503,9 +2503,9 @@ Transform:
   m_GameObject: {fileID: 919132149604858065}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1361529439754330635}
   - {fileID: 7487051757240765791}
@@ -2626,7 +2626,7 @@ GameObject:
   - component: {fileID: 7487051757240765791}
   - component: {fileID: 8779770937390295492}
   - component: {fileID: 3049052730250070300}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: back_bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2694,7 +2694,7 @@ GameObject:
   - component: {fileID: 852148539061463142}
   - component: {fileID: 7432348007833872985}
   - component: {fileID: 5142264644464577157}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bolt3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2827,7 +2827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450653258080875}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: chair123
   m_TagString: TargetObject
   m_Icon: {fileID: 0}
@@ -2925,7 +2925,7 @@ GameObject:
   - component: {fileID: 4836657079265896501}
   - component: {fileID: 7287117666644641254}
   - component: {fileID: 8566848546463727084}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pCube9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3058,7 +3058,7 @@ GameObject:
   - component: {fileID: 2432199878018908754}
   - component: {fileID: 1586452992930364271}
   - component: {fileID: 548552292070920112}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bolt2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3106,7 +3106,7 @@ GameObject:
   - component: {fileID: 757908076324200947}
   - component: {fileID: 652751909882870440}
   - component: {fileID: 1625034613318180361}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pCube6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3139,7 +3139,7 @@ GameObject:
   - component: {fileID: 2906613204500630342}
   - component: {fileID: 5595325624178762162}
   - component: {fileID: 1213141860274813876}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: butt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3279,7 +3279,7 @@ GameObject:
   - component: {fileID: 6778723973248584139}
   - component: {fileID: 11231506210641433}
   - component: {fileID: 1601102106794235324}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3297,7 +3297,7 @@ GameObject:
   - component: {fileID: 7786837478436798467}
   - component: {fileID: 5508579394259407511}
   - component: {fileID: 5808874287571105455}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bolt1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3464,7 +3464,7 @@ GameObject:
   - component: {fileID: 3716768890802806071}
   - component: {fileID: 1502567780116259986}
   - component: {fileID: 7128983813900312162}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: polySurface24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3482,7 +3482,7 @@ GameObject:
   - component: {fileID: 2376362714804367294}
   - component: {fileID: 5238620624721965820}
   - component: {fileID: 3927955721713228838}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: adjustment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3508,7 +3508,7 @@ GameObject:
   - component: {fileID: 4986810712573606374}
   - component: {fileID: 8529182452702952121}
   - component: {fileID: 3340778966191254748}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3526,7 +3526,7 @@ GameObject:
   - component: {fileID: 717509907345610033}
   - component: {fileID: 86703910462524426}
   - component: {fileID: 4564934124110522225}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: polySurface43
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3837,7 +3837,7 @@ GameObject:
   - component: {fileID: 5945075589886636838}
   - component: {fileID: 7403730784362085751}
   - component: {fileID: 3451513720474334616}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R_handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3886,7 +3886,7 @@ GameObject:
   - component: {fileID: 2770182115576990218}
   - component: {fileID: 4510460523029674315}
   - component: {fileID: 751431714466051616}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pCylinder14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3904,7 +3904,7 @@ GameObject:
   - component: {fileID: 704576414472831348}
   - component: {fileID: 5801061101155788762}
   - component: {fileID: 681726759231770288}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4200,7 +4200,7 @@ GameObject:
   - component: {fileID: 7484945946660008142}
   - component: {fileID: 8405723345913682842}
   - component: {fileID: 8770708255797013979}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pPlane3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4275,7 +4275,7 @@ GameObject:
   - component: {fileID: 1361529439754330635}
   - component: {fileID: 5050595677072727350}
   - component: {fileID: 6059836593087898214}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: back2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4293,7 +4293,7 @@ GameObject:
   - component: {fileID: 935258951757118805}
   - component: {fileID: 3815221322083029776}
   - component: {fileID: 8940663158865161472}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pCylinder10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4369,7 +4369,7 @@ GameObject:
   - component: {fileID: 2616641272481197891}
   - component: {fileID: 4420656263338073861}
   - component: {fileID: 8014764163656628248}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4387,7 +4387,7 @@ GameObject:
   - component: {fileID: 811868348152251466}
   - component: {fileID: 2897174049908933234}
   - component: {fileID: 5678806175650342440}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: wheel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4455,7 +4455,7 @@ GameObject:
   - component: {fileID: 25415652906045254}
   - component: {fileID: 1198113285111222220}
   - component: {fileID: 566320756413687405}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: polySurface11
   m_TagString: Untagged
   m_Icon: {fileID: 0}

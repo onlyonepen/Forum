@@ -971,7 +971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetObject: {fileID: 0}
-  MaxDistance: 4
+  MaxDistance: 1
   ARCamera: {fileID: 22732920}
   PainterManager: {fileID: 521848624}
   PanelPullButton: {fileID: 2059227612}
@@ -1861,6 +1861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e597bbb602b79b645874a3a7ce8ab2f5,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e597bbb602b79b645874a3a7ce8ab2f5,
+        type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -2035,7 +2040,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1794262816}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GameObject
   m_TagString: TargetObject
   m_Icon: {fileID: 0}
@@ -2051,9 +2056,9 @@ Transform:
   m_GameObject: {fileID: 1794262815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1464635051}
   m_Father: {fileID: 0}
