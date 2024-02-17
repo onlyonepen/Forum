@@ -1,9 +1,13 @@
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
+using System.Collections.Generic;
 
 public class ObjectMoverManagerScript : MonoBehaviour
 {
+
     [HideInInspector]
     public GameObject TargetObject;
     public float MaxDistance = 2;
@@ -12,6 +16,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
     public GameObject PainterManager;
     public GameObject PanelPullButton;
     public Slider MoveAwaySlider;
+    public ARRaycastManager raycastManager;
+
 
     private float initialDistance;
     private Vector3 initialScale;
@@ -24,6 +30,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
     quaternion RotationY;
     float RotateSpeedModifier = 0.01f;
     GameObject EmptyObject;
+    Pose hitPose;
+    List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +40,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
         NotObject =~ TargetObject.layer;
         EmptyObject = new GameObject("MovePoint");
         EmptyObject.transform.parent = ARCamera.transform;
+        List<ARRaycastHit> hits = new List<ARRaycastHit>();
     }
 
     // Update is called once per frame
@@ -56,17 +65,17 @@ public class ObjectMoverManagerScript : MonoBehaviour
             
 
             //RotateObjectLogic
-            if (Input.touchCount > 0)
-            {
-                Touch = Input.GetTouch(0);
-                Debug.Log("Touch");
-                if (Touch.phase == TouchPhase.Moved)
-                {
-                    RotationY = quaternion.Euler(0f, -Touch.deltaPosition.x * RotateSpeedModifier, 0f);
-                    TargetObject.transform.rotation = RotationY * TargetObject.transform.rotation;
-                    Debug.Log("Rotate " +  RotationY);
-                }
-            }
+            //if (Input.touchCount > 0)
+            //{
+            //    Touch = Input.GetTouch(0);
+            //    Debug.Log("Touch");
+            //    if (Touch.phase == TouchPhase.Moved)
+            //    {
+            //        RotationY = quaternion.Euler(0f, -Touch.deltaPosition.x * RotateSpeedModifier, 0f);
+            //        TargetObject.transform.rotation = RotationY * TargetObject.transform.rotation;
+            //        Debug.Log("Rotate " +  RotationY);
+            //    }
+            //}
 
             //ScalingObjectLogic
             if (Input.touchCount == 2)
@@ -110,11 +119,25 @@ public class ObjectMoverManagerScript : MonoBehaviour
             }
 
             //MoveAwayScript
-            MaxDistance = MoveAwaySlider.value;
-            EmptyObject.transform.localPosition = new Vector3(0 , 0 , MaxDistance);
+            //MaxDistance = MoveAwaySlider.value;
+            //EmptyObject.transform.localPosition = new Vector3(0 , 0 , MaxDistance);
 
 
-            TargetObject.transform.position = EmptyObject.transform.position;
+            //TargetObject.transform.position = EmptyObject.transform.position;
+
+            //Touch to move Script
+            if (Input.touchCount > 0)
+            {
+                Debug.Log("Touched");
+                Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
+                if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
+                {
+                    hitPose = hits[0].pose;
+                    TargetObject.transform.position = hitPose.position;
+                    TargetObject.transform.rotation = hitPose.rotation;
+                    Debug.Log("Changed pos");
+                }
+            }
         }
     }
 
