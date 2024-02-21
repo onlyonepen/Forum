@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class ObjectMoverManagerScript : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
     private float initialDistance;
     private Vector3 initialScale;
 
+    int hitUI;
     RaycastHit hit;
     Vector3 Point;
     LayerMask NotObject;
@@ -118,24 +120,36 @@ public class ObjectMoverManagerScript : MonoBehaviour
                 }
             }
 
-            //MoveAwayScript
-            //MaxDistance = MoveAwaySlider.value;
-            //EmptyObject.transform.localPosition = new Vector3(0 , 0 , MaxDistance);
+            //RotationScript
+            MaxDistance = MoveAwaySlider.value;
+            TargetObject.transform.eulerAngles = new Vector3(0 , MaxDistance , 0);
 
 
             //TargetObject.transform.position = EmptyObject.transform.position;
 
             //Touch to move Script
-            if (Input.touchCount > 0)
+            if (Input.touchCount == 1)
             {
-                Debug.Log("Touched");
-                Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
-                if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
+                hitUI = 0;
+                foreach (Touch touch in Input.touches)
                 {
-                    hitPose = hits[0].pose;
-                    TargetObject.transform.position = hitPose.position;
-                    TargetObject.transform.rotation = hitPose.rotation;
-                    Debug.Log("Changed pos");
+                    int touchID = touch.fingerId;
+                    if (EventSystem.current.IsPointerOverGameObject(touchID))
+                    {
+                        hitUI += 1;
+                        Debug.Log("amongus");
+                    }
+                    Debug.Log("dwad");
+                }
+
+                if (hitUI == 0)
+                {
+                    Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
+                    if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
+                    {
+                        hitPose = hits[0].pose;
+                        TargetObject.transform.position = hitPose.position;
+                    }
                 }
             }
         }
