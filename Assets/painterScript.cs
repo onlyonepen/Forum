@@ -9,6 +9,7 @@
 // Enabled option set to true in its Advanced import settings.
 
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.ARCore;
@@ -48,6 +49,12 @@ public class painterScript : MonoBehaviour
     public Sprite Eraser;
     public GameObject MoverButton;
 
+    // Line drawer
+    public int continuesFramesPressed;
+
+    public Texture2D brush;
+    public float sizeDecimal;
+
     // Took the variable inits outside of the Start() and fixed the processing system so it actually works right
     // Dont change
 
@@ -55,7 +62,9 @@ public class painterScript : MonoBehaviour
     private Dictionary<Texture2D, Texture2D> reversedTextureDict = new Dictionary<Texture2D, Texture2D>();
     private List<Texture2D> dictKeys;
     private string[] brushes = { "Paint", "Erase" };
-
+    private float[] brushTemplate;
+    public int brushTemplateX;
+    public int brushTemplateY;
 
     void Start()
     {
@@ -102,6 +111,7 @@ public class painterScript : MonoBehaviour
             reversedTextureDict.Add(textureDict[key], key);
         }
 
+        PaintSizeManager(50);
     }
 
 
@@ -114,6 +124,7 @@ public class painterScript : MonoBehaviour
 
             if (Input.touchCount > 0)
             {
+                continuesFramesPressed += 1;
                 Touch touch = Input.GetTouch(0);
                 TouchRay = cam.ScreenPointToRay(touch.position);
 
@@ -124,9 +135,13 @@ public class painterScript : MonoBehaviour
                 }
                 ApplyPaintToHitpoint(hit);
             }
+            else
+            {
+                continuesFramesPressed = 0;
+            }
         }
         fcp.color = CurrentColor;
-        Transparentcy = 1 - CurrentColor.a;
+        Transparentcy = CurrentColor.a;
 
         /*
         // Code for testing on PC
@@ -184,26 +199,30 @@ public class painterScript : MonoBehaviour
         Vector2 pixelUV = hit.textureCoord;
         pixelUV.x *= tex.width;
         pixelUV.y *= tex.height;
+        Debug.Log(pixelUV);
 
         // Generate Brush
-        colors = new Color32[BrushSize * BrushSize];
-        for (int i = 0; i < BrushSize; i++)
+        colors = new Color32[brushTemplate.Length];
+        int offsetx = (brushTemplateX/2);
+        int offsety = (brushTemplateY/2);
+        for (int i = 0; i < brushTemplateX; i++)
         {
-            for (int j = 0; j < BrushSize; j++)
+            for (int j = 0; j < brushTemplateY; j++)
             {
-                if (mode == 1)
+                int applyPoint = j * brushTemplateY + i;
+                if (mode == 1) //Eraser
                 {
-                    colors[i * BrushSize + j] = reversedTextureDict[tex].GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i);
+                    colors[applyPoint] = reversedTextureDict[tex].GetPixel((int)pixelUV.x + i - offsetx, (int)pixelUV.y + j - offsety);
                 }
                 else
                 {
-                    colors[i * BrushSize + j] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + j, (int)pixelUV.y + i), Transparentcy);
+                    colors[applyPoint] = Color.Lerp(CurrentColor, tex.GetPixel((int)pixelUV.x + i  - offsetx, (int)pixelUV.y + j - offsety), 1 - (brushTemplate[applyPoint] * Transparentcy));
                 }
             }
         }
 
         // Apply textures
-        tex.SetPixels32((int)pixelUV.x, (int)pixelUV.y, BrushSize, BrushSize, colors);
+        tex.SetPixels32((int)pixelUV.x - offsetx, (int)pixelUV.y - offsety, brushTemplateX, brushTemplateY, colors);
         tex.Apply();
     }
 
@@ -245,5 +264,25 @@ public class painterScript : MonoBehaviour
     public void PaintSizeManager(int PaintSizeFromSlider)
     {
         BrushSize = PaintSizeFromSlider;
+        sizeDecimal = (float)BrushSize * (float)2 / (float)100;
+        brushTemplateX = (int)(brush.width * sizeDecimal);
+        brushTemplateY = (int)(brush.height * sizeDecimal);
+        brushTemplate = new float[brushTemplateX*brushTemplateY];
+
+        for (int i = 0; i < brushTemplateX; i++)
+        {
+            for (int j = 0; j < brushTemplateY; j++)
+            {
+                int m = (int)(i / sizeDecimal + 0.5);              // +0.5 for rounding
+                if (m > brushTemplateX - 1) {          // limit the value
+                    m = brushTemplateX - 1;
+                }
+                int n = (int)(j / sizeDecimal + 0.5);
+                if (n > brushTemplateY - 1) {
+                    n = brushTemplateY - 1;
+                }
+                brushTemplate[j * brushTemplateY + i] = brush.GetPixel(m, n).a;
+            }
+        }
     }
 }

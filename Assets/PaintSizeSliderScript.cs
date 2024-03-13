@@ -14,9 +14,9 @@ public class PaintSizeSliderScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void ChangeColor()
     {
         FlooredSliderValue = Mathf.RoundToInt(gameObject.GetComponent<Slider>().value);
-        PainterManager.GetComponent<painterScript>().BrushSize = FlooredSliderValue;
+        PainterManager.GetComponent<painterScript>().PaintSizeManager(FlooredSliderValue);
     }
 }
