@@ -48,7 +48,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        TargetObject = GameObject.FindGameObjectWithTag("TargetObject");
         if (IsInMoveState == true)
         {
             //MoveObjectLogic

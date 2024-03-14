@@ -1103,6 +1103,11 @@ MonoBehaviour:
   Painter: {fileID: 21300000, guid: defed65855a787b4aa7d1da60e892338, type: 3}
   Eraser: {fileID: 21300000, guid: cad43820ae70ce049a128802b9a9dd3c, type: 3}
   MoverButton: {fileID: 377639030}
+  continuesFramesPressed: 0
+  brush: {fileID: 0}
+  sizeDecimal: 0
+  brushTemplateX: 0
+  brushTemplateY: 0
 --- !u!1 &590540056
 GameObject:
   m_ObjectHideFlags: 0

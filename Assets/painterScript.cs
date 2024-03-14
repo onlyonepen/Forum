@@ -26,7 +26,7 @@ public class painterScript : MonoBehaviour
     public float Transparentcy = 255;
     public LayerMask TargetObject;
     private int height;
-    public Color32[] colors;
+    private Color32[] colors;
     private Ray TouchRay;
 
     RaycastHit hit;
@@ -57,59 +57,27 @@ public class painterScript : MonoBehaviour
 
     // Took the variable inits outside of the Start() and fixed the processing system so it actually works right
     // Dont change
+    private List<GameObject> listedModel = new List<GameObject>();
+    private List<Dictionary<Texture2D, Texture2D>> listedTextureDict = new List<Dictionary<Texture2D, Texture2D>>();
+    private List<Dictionary<Texture2D, Texture2D>> listedReversedTextureDict = new List<Dictionary<Texture2D, Texture2D>>();
+
 
     private Dictionary<Texture2D, Texture2D> textureDict = new Dictionary<Texture2D, Texture2D>();
     private Dictionary<Texture2D, Texture2D> reversedTextureDict = new Dictionary<Texture2D, Texture2D>();
+    private List<List<Texture2D>> listedDictKeys = new List<List<Texture2D>>();
     private List<Texture2D> dictKeys;
     private string[] brushes = { "Paint", "Erase" };
     private float[] brushTemplate;
     public int brushTemplateX;
     public int brushTemplateY;
 
+    public int index;
+
     void Start()
     {
         fcp.onColorChange.AddListener(OnChangeColor);
 
-        // Process Model
-        Transform trainsform = Model.transform;
-        //get zombie model
-        foreach (Transform childTransform in trainsform) {
-            if (childTransform.gameObject.GetComponent<MeshFilter>() != null && childTransform != trainsform) {
-                //Go through each child gameObject and see if have SkinnedMeshRenderer
-                //if it does, add a meshcollider using the mesh from the SkinnedMeshRenderer
-
-                MeshCollider collider = childTransform.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
-                MeshFilter meshFilter = childTransform.gameObject.GetComponent<MeshFilter>();
-                collider.sharedMesh = meshFilter.mesh;
-            }
-
-            //For further development, change texture to be writable (by cloning texture to seperate one, for reverting and saving also)
-            // Note: I think we did the above already
-
-            // Will check if texture was already clone so we don't clone textures more than once
-            if (childTransform.gameObject.GetComponent<Renderer>() != null) {
-                Material material = childTransform.gameObject.GetComponent<Renderer>().material;
-                Texture2D mainTexture = (Texture2D)material.mainTexture;
-                dictKeys = new List<Texture2D>(textureDict.Keys);
-                if (dictKeys.Contains(mainTexture)) {
-                    material.SetTexture("_MainTex", textureDict[mainTexture]);
-                    Debug.Log("repeats");
-                } else {
-                    Texture2D clone = new Texture2D(mainTexture.width, mainTexture.height);
-                    clone.name = mainTexture.name + "clone";
-                    clone.SetPixels(mainTexture.GetPixels());
-                    clone.Apply();
-                    textureDict.Add(mainTexture, clone);
-                    material.SetTexture("_MainTex", clone);
-                }
-
-            }
-        }
-        dictKeys = new List<Texture2D>(textureDict.Keys);
-        // Create reversed dictionary for erase lookup
-        foreach (var key in dictKeys) {
-            reversedTextureDict.Add(textureDict[key], key);
-        }
+        InitNewModel();
 
         PaintSizeManager(50);
     }
@@ -133,7 +101,9 @@ public class painterScript : MonoBehaviour
                     Debug.Log("Not hit");
                     return;
                 }
+
                 ApplyPaintToHitpoint(hit);
+                
             }
             else
             {
@@ -284,5 +254,97 @@ public class painterScript : MonoBehaviour
                 brushTemplate[j * brushTemplateY + i] = brush.GetPixel(m, n).a;
             }
         }
+    }
+
+    private void SwitchTextureDicts()    
+    {
+        textureDict = listedTextureDict[index];
+        reversedTextureDict = listedReversedTextureDict[index];
+        dictKeys = listedDictKeys[index];
+    }
+
+    public void SwitchModel(int number)
+    {
+        if (number != -1)
+        {
+            index = number;
+        }
+        else
+        {
+            index = (index + 1) % listedModel.Count;
+        }
+        ToggleColliders();
+        SwitchTextureDicts();
+        Model = listedModel[index];
+        Model.tag = "TargetObject";
+        ToggleColliders();
+    }
+
+    private void ToggleColliders()
+    {
+        Transform trainsform = Model.transform;
+        foreach (Transform childTransform in trainsform) {
+            MeshCollider collider = childTransform.gameObject.GetComponent(typeof(MeshCollider)) as MeshCollider;
+            collider.enabled = !collider.enabled;
+        }
+    }
+
+    public void InitNewModel()
+    {
+        if (listedModel.Count != 0)
+        {
+            Model.tag = "Untagged";
+            ToggleColliders();
+        }
+        Model = GameObject.FindGameObjectsWithTag("TargetObject")[0];
+        
+        listedModel.Add(Model);
+        listedTextureDict.Add(new Dictionary<Texture2D, Texture2D>());
+        listedReversedTextureDict.Add(new Dictionary<Texture2D, Texture2D>());
+        listedDictKeys.Add(new List<Texture2D>());
+        index = listedTextureDict.Count - 1;
+        SwitchTextureDicts();
+        // Process Model
+        Transform trainsform = Model.transform;
+        //get zombie model
+        foreach (Transform childTransform in trainsform) {
+            if (childTransform.gameObject.GetComponent<MeshFilter>() != null && childTransform != trainsform) {
+                //Go through each child gameObject and see if have SkinnedMeshRenderer
+                //if it does, add a meshcollider using the mesh from the SkinnedMeshRenderer
+
+                MeshCollider collider = childTransform.gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider;
+                MeshFilter meshFilter = childTransform.gameObject.GetComponent<MeshFilter>();
+                collider.sharedMesh = meshFilter.mesh;
+            }
+
+            //For further development, change texture to be writable (by cloning texture to seperate one, for reverting and saving also)
+            // Note: I think we did the above already
+
+            // Will check if texture was already clone so we don't clone textures more than once
+            if (childTransform.gameObject.GetComponent<Renderer>() != null) {
+                Material material = childTransform.gameObject.GetComponent<Renderer>().material;
+                Texture2D mainTexture = (Texture2D)material.mainTexture;
+                dictKeys = new List<Texture2D>(textureDict.Keys);
+                if (dictKeys.Contains(mainTexture)) {
+                    material.SetTexture("_MainTex", textureDict[mainTexture]);
+                    Debug.Log("repeats");
+                } else {
+                    Texture2D clone = new Texture2D(mainTexture.width, mainTexture.height);
+                    clone.name = mainTexture.name + "clone";
+                    clone.SetPixels(mainTexture.GetPixels());
+                    clone.Apply();
+                    textureDict.Add(mainTexture, clone);
+                    material.SetTexture("_MainTex", clone);
+                }
+
+            }
+        }
+        dictKeys = new List<Texture2D>(textureDict.Keys);
+        // Create reversed dictionary for erase lookup
+        foreach (var key in dictKeys) {
+            reversedTextureDict.Add(textureDict[key], key);
+        }
+
+        SwitchModel(listedTextureDict.Count - 1);
     }
 }
