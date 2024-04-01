@@ -11,6 +11,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
 
     [HideInInspector]
     public GameObject TargetObject;
+    public float RotationFactor = 2;
     public float MaxDistance = 2;
     public Camera ARCamera;
     bool IsInMoveState = false;
@@ -51,6 +52,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
 
         if (IsInMoveState == true)
         {
+            TargetObject.transform.position = (ARCamera.transform.eulerAngles.normalized * MaxDistance) + ARCamera.transform.position;
             //MoveObjectLogic
             //Ray ray = ARCamera.ScreenPointToRay(new Vector3(-1 / 2, -1 / 2, 0));
             //if (Physics.Raycast(ARCamera.ScreenPointToRay(new Vector3(-1 / 2, -1 / 2, 0))))
@@ -64,7 +66,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
             //    Debug.Log("Float Place");
             //}
             //Debug.Log(TargetObject.transform.position);
-            
+
 
             //RotateObjectLogic
             //if (Input.touchCount > 0)
@@ -121,37 +123,37 @@ public class ObjectMoverManagerScript : MonoBehaviour
             }
 
             //RotationScript
-            MaxDistance = MoveAwaySlider.value;
-            TargetObject.transform.eulerAngles = new Vector3(0 , MaxDistance , 0);
+            RotationFactor = MoveAwaySlider.value;
+            TargetObject.transform.eulerAngles = new Vector3(0 , RotationFactor , 0);
 
 
             //TargetObject.transform.position = EmptyObject.transform.position;
 
             //Touch to move Script
-            if (Input.touchCount == 1)
-            {
-                hitUI = 0;
-                foreach (Touch touch in Input.touches)
-                {
-                    int touchID = touch.fingerId;
-                    if (EventSystem.current.IsPointerOverGameObject(touchID))
-                    {
-                        hitUI += 1;
-                        Debug.Log("amongus");
-                    }
-                    Debug.Log("dwad");
-                }
+            //if (Input.touchCount == 1)
+            //{
+            //    hitUI = 0;
+            //    foreach (Touch touch in Input.touches)
+            //    {
+            //        int touchID = touch.fingerId;
+            //        if (EventSystem.current.IsPointerOverGameObject(touchID))
+            //        {
+            //            hitUI += 1;
+            //            Debug.Log("amongus");
+            //        }
+            //        Debug.Log("dwad");
+            //    }
 
-                if (hitUI == 0)
-                {
-                    Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
-                    if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
-                    {
-                        hitPose = hits[0].pose;
-                        TargetObject.transform.position = hitPose.position;
-                    }
-                }
-            }
+            //    if (hitUI == 0)
+            //    {
+            //        Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
+            //        if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
+            //        {
+            //            hitPose = hits[0].pose;
+            //            TargetObject.transform.position = hitPose.position;
+            //        }
+            //    }
+            //}
         }
     }
 
