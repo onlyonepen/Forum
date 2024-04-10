@@ -14,10 +14,13 @@ public class ObjectMoverManagerScript : MonoBehaviour
     public float MaxDistance = 2;
     public Camera ARCamera;
     bool IsInMoveState = false;
-    public GameObject PainterManager;
+    public painterScript PainterManager;
+    public GameObject MoveAwayObject;
     public GameObject PanelPullButton;
-    public Slider MoveAwaySlider;
+    private Slider MoveAwaySlider;
     public ARRaycastManager raycastManager;
+    public Text ModeText;
+    TrackableId hitPlane;
 
 
     private float initialDistance;
@@ -43,6 +46,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
         EmptyObject = new GameObject("MovePoint");
         EmptyObject.transform.parent = ARCamera.transform;
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
+        MoveAwaySlider = MoveAwayObject.GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -160,16 +164,20 @@ public class ObjectMoverManagerScript : MonoBehaviour
         IsInMoveState = !IsInMoveState;
         if (IsInMoveState)
         {
-            Debug.Log("Able to move around");
-            PainterManager.SetActive(false);
+            //Debug.Log("Able to move around");
+            PainterManager.CanPaint = false;
+            MoveAwayObject.SetActive(true);
             PanelPullButton.GetComponent<Button>().enabled = false;
+            ModeText.text = "Mode: Move";
         }
         if (!IsInMoveState)
         {
             TargetObject.transform.parent = null;
-            Debug.Log("Disable Movement");
-            PainterManager.SetActive(true);
+            //Debug.Log("Disable Movement");
+            PainterManager.CanPaint = true;
+            MoveAwayObject.SetActive(false);
             PanelPullButton.GetComponent<Button>().enabled = true;
+            ModeText.text = "Mode: Paint";
         }
     }
 

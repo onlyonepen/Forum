@@ -30,7 +30,7 @@ public class painterScript : MonoBehaviour
     private Ray TouchRay;
 
     RaycastHit hit;
-    bool CanPaint = true;
+    public bool CanPaint = true;
 
     // For change brush (and eraser) buttons
     [SerializeField]
@@ -265,6 +265,7 @@ public class painterScript : MonoBehaviour
 
     public void SwitchModel(int number)
     {
+        Model.tag = "Untagged";
         if (number != -1)
         {
             index = number;
@@ -280,12 +281,15 @@ public class painterScript : MonoBehaviour
         ToggleColliders();
     }
 
+    // Also toggle outline component
     private void ToggleColliders()
     {
-        Transform trainsform = Model.transform;
+        Transform trainsform = Model.transform.GetChild(0);
         foreach (Transform childTransform in trainsform) {
             MeshCollider collider = childTransform.gameObject.GetComponent(typeof(MeshCollider)) as MeshCollider;
             collider.enabled = !collider.enabled;
+            Outline outlineComponent = childTransform.gameObject.GetComponent<Outline>();
+            outlineComponent.enabled = !outlineComponent.enabled;
         }
     }
 
@@ -297,6 +301,7 @@ public class painterScript : MonoBehaviour
             ToggleColliders();
         }
         Model = GameObject.FindGameObjectsWithTag("TargetObject")[0];
+        Debug.Log(Model);
         
         listedModel.Add(Model);
         listedTextureDict.Add(new Dictionary<Texture2D, Texture2D>());
@@ -305,7 +310,8 @@ public class painterScript : MonoBehaviour
         index = listedTextureDict.Count - 1;
         SwitchTextureDicts();
         // Process Model
-        Transform trainsform = Model.transform;
+        Transform trainsform = Model.transform.GetChild(0);
+        Debug.Log(trainsform);
         //get zombie model
         foreach (Transform childTransform in trainsform) {
             if (childTransform.gameObject.GetComponent<MeshFilter>() != null && childTransform != trainsform) {
@@ -338,6 +344,9 @@ public class painterScript : MonoBehaviour
                 }
 
             }
+            Outline outlineComponent = childTransform.gameObject.AddComponent<Outline>();
+            outlineComponent.outlineMode = Outline.Mode.OutlineVisible;
+            outlineComponent.outlineColor = Color.black;
         }
         dictKeys = new List<Texture2D>(textureDict.Keys);
         // Create reversed dictionary for erase lookup

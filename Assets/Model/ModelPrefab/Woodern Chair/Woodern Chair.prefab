@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6339201857199064520
 MeshFilter:
@@ -114,7 +114,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6704168668358347698
 MeshFilter:
@@ -197,7 +197,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &273838458926488545
 MeshFilter:
@@ -280,7 +280,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3883962123813946502
 MeshFilter:
@@ -363,7 +363,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7836784761126770564
 MeshFilter:
@@ -446,7 +446,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5751785523346904221
 MeshFilter:
@@ -498,6 +498,46 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5306076310535857538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 225781234828173162}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &225781234828173162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306076310535857538}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.93}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8689914283999020401}
+  - {fileID: 7935947460334886390}
+  - {fileID: 1843725134967687829}
+  - {fileID: 4591124772649035649}
+  - {fileID: 4292337442099558740}
+  - {fileID: 5113785381700530153}
+  - {fileID: 2098635573026269956}
+  - {fileID: 1933268184449246713}
+  - {fileID: 8436936394824610972}
+  m_Father: {fileID: 6871713399121101324}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5592441237829833923
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +569,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5058637720473862653
 MeshFilter:
@@ -612,7 +652,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3369387528799094173
 MeshFilter:
@@ -695,7 +735,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6871713399121101324}
+  m_Father: {fileID: 225781234828173162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4984834512848769312
 MeshFilter:
@@ -768,7 +808,7 @@ PrefabInstance:
     - target: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
         type: 3}
@@ -816,39 +856,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8689914283999020401}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7935947460334886390}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1843725134967687829}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4591124772649035649}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4292337442099558740}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5113785381700530153}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2098635573026269956}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1933268184449246713}
-    - targetCorrespondingSourceObject: {fileID: 4753761401698736342, guid: 5c0c6812919dfba45a43de7e8288829f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8436936394824610972}
+      addedObject: {fileID: 225781234828173162}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c0c6812919dfba45a43de7e8288829f, type: 3}
 --- !u!4 &6871713399121101324 stripped
