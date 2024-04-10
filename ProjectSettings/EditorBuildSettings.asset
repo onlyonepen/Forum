@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ModelScenes/Closet.unity
     guid: 1fc592490036d2f4cabac7be85345a64
   - enabled: 1
+    path: Assets/Scenes/WorkSpaceNew.unity
+    guid: bbcb5e3edff8f264d852355b8b0b363c
+  - enabled: 1
     path: Assets/Scenes/ModelScenes/GamingChair.unity
     guid: 3a9117d6b58fd3b4b8752d3770dca3d7
   - enabled: 1
