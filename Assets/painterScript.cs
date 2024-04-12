@@ -84,7 +84,7 @@ public class painterScript : MonoBehaviour
 
 
 
-    public void Update()
+    void Update()
     {
         
         if (CanPaint == true)
@@ -194,6 +194,33 @@ public class painterScript : MonoBehaviour
         // Apply textures
         tex.SetPixels32((int)pixelUV.x - offsetx, (int)pixelUV.y - offsety, brushTemplateX, brushTemplateY, colors);
         tex.Apply();
+    }
+
+    public void ClearColor()
+    {
+        List<Texture2D> appliedTextures = new List<Texture2D>();
+        Transform trainsform = Model.transform.GetChild(0);
+        foreach (Transform childTransform in trainsform) {
+            if (childTransform.gameObject.GetComponent<Renderer>() != null) {
+                Material material = childTransform.gameObject.GetComponent<Renderer>().material;
+                Texture2D tex = (Texture2D)material.mainTexture;
+                if (!appliedTextures.Contains(tex))
+                {
+                    // Generate Brush
+                    colors = new Color32[tex.width*tex.height];
+                    for (int i = 0; i < tex.width*tex.height; i++)
+                    {
+                        colors[i] = Color.white;
+                    }
+
+                    // Apply textures
+                    tex.SetPixels32(colors);
+                    tex.Apply();
+                    appliedTextures.Add(tex);
+                }
+
+            }
+        }
     }
 
     private void OnChangeColor(Color co)
