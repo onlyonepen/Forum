@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.XR.ARCore;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class painterScript : MonoBehaviour
 {
@@ -73,6 +74,9 @@ public class painterScript : MonoBehaviour
 
     public int index;
 
+    public TextMeshProUGUI CurrentModelText;
+    public Color OutlineColor = Color.red;
+
     void Start()
     {
         fcp.onColorChange.AddListener(OnChangeColor);
@@ -86,7 +90,10 @@ public class painterScript : MonoBehaviour
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
         if (CanPaint == true)
         {
 
@@ -293,19 +300,24 @@ public class painterScript : MonoBehaviour
     public void SwitchModel(int number)
     {
         Model.tag = "Untagged";
-        if (number != -1)
+        if (number > -1)
         {
             index = number;
         }
-        else
+        else if (number == -1)
         {
             index = (index + 1) % listedModel.Count;
+        }
+        else if (number == -2)
+        {
+            index = index == 0 ? listedModel.Count - 1 : index - 1;
         }
         ToggleColliders();
         SwitchTextureDicts();
         Model = listedModel[index];
         Model.tag = "TargetObject";
         ToggleColliders();
+        CurrentModelText.text = ("CurrentModel :<br>" + Model.name);
     }
 
     // Also toggle outline component
@@ -373,7 +385,7 @@ public class painterScript : MonoBehaviour
             }
             Outline outlineComponent = childTransform.gameObject.AddComponent<Outline>();
             outlineComponent.outlineMode = Outline.Mode.OutlineVisible;
-            outlineComponent.outlineColor = Color.black;
+            outlineComponent.outlineColor = OutlineColor;
         }
         dictKeys = new List<Texture2D>(textureDict.Keys);
         // Create reversed dictionary for erase lookup

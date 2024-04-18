@@ -5,6 +5,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class ObjectMoverManagerScript : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
     public GameObject PanelPullButton;
     private Slider MoveAwaySlider;
     public ARRaycastManager raycastManager;
-    public Text ModeText;
+    public TextMeshProUGUI ModeText;
     TrackableId hitPlane;
 
 
@@ -73,17 +74,17 @@ public class ObjectMoverManagerScript : MonoBehaviour
 
 
             //RotateObjectLogic
-            //if (Input.touchCount > 0)
-            //{
-            //    Touch = Input.GetTouch(0);
-            //    Debug.Log("Touch");
-            //    if (Touch.phase == TouchPhase.Moved)
-            //    {
-            //        RotationY = quaternion.Euler(0f, -Touch.deltaPosition.x * RotateSpeedModifier, 0f);
-            //        TargetObject.transform.rotation = RotationY * TargetObject.transform.rotation;
-            //        Debug.Log("Rotate " +  RotationY);
-            //    }
-            //}
+            if (Input.touchCount > 0)
+            {
+                Touch = Input.GetTouch(0);
+                Debug.Log("Touch");
+                if (Touch.phase == TouchPhase.Moved)
+                {
+                    RotationY = quaternion.Euler(0f, -Touch.deltaPosition.x * RotateSpeedModifier, 0f);
+                    TargetObject.transform.rotation = RotationY * TargetObject.transform.rotation;
+                    Debug.Log("Rotate " + RotationY);
+                }
+            }
 
             //ScalingObjectLogic
             if (Input.touchCount == 2)
@@ -127,8 +128,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
             }
 
             //RotationScript
-            RotationFactor = MoveAwaySlider.value;
-            TargetObject.transform.eulerAngles = new Vector3(0 , RotationFactor , 0);
+            //RotationFactor = MoveAwaySlider.value;
+            //TargetObject.transform.eulerAngles = new Vector3(0 , RotationFactor , 0);
 
 
             //TargetObject.transform.position = EmptyObject.transform.position;
@@ -168,7 +169,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
         {
             //Debug.Log("Able to move around");
             PainterManager.CanPaint = false;
-            MoveAwayObject.SetActive(true);
+            //MoveAwayObject.SetActive(true);
             PanelPullButton.GetComponent<Button>().enabled = false;
             ModeText.text = "Mode: Move";
         }
@@ -177,7 +178,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
             TargetObject.transform.parent = null;
             //Debug.Log("Disable Movement");
             PainterManager.CanPaint = true;
-            MoveAwayObject.SetActive(false);
+            //MoveAwayObject.SetActive(false);
             PanelPullButton.GetComponent<Button>().enabled = true;
             ModeText.text = "Mode: Paint";
         }

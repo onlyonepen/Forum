@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,6 @@ public class PanelColouringScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.GetComponent<Image>().color = colorPicker.color;
+        gameObject.GetComponent<TextMeshProUGUI>().color = colorPicker.color;
     }
 }
