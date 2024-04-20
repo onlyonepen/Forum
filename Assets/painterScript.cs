@@ -81,8 +81,6 @@ public class painterScript : MonoBehaviour
     {
         fcp.onColorChange.AddListener(OnChangeColor);
 
-        InitNewModel();
-
         PaintSizeManager(50);
     }
 

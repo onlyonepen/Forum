@@ -18,8 +18,10 @@ public class ObjectMoverManagerScript : MonoBehaviour
     bool IsInMoveState = false;
     public painterScript PainterManager;
     public GameObject MoveAwayObject;
+    public GameObject RotateObject;
     public GameObject PanelPullButton;
     private Slider MoveAwaySlider;
+    private Slider RotateSlider;
     public ARRaycastManager raycastManager;
     public TextMeshProUGUI ModeText;
     TrackableId hitPlane;
@@ -43,12 +45,11 @@ public class ObjectMoverManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TargetObject = GameObject.FindGameObjectWithTag("TargetObject");
-        NotObject =~ TargetObject.layer;
         EmptyObject = new GameObject("MovePoint");
         EmptyObject.transform.parent = ARCamera.transform;
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         MoveAwaySlider = MoveAwayObject.GetComponent<Slider>();
+        RotateSlider = RotateObject.GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -57,7 +58,6 @@ public class ObjectMoverManagerScript : MonoBehaviour
         TargetObject = GameObject.FindGameObjectWithTag("TargetObject");
         if (IsInMoveState == true && TargetObject != null)
         {
-            TargetObject.transform.position = (ARCamera.transform.eulerAngles.normalized * MaxDistance) + ARCamera.transform.position;
             //MoveObjectLogic
             //Ray ray = ARCamera.ScreenPointToRay(new Vector3(-1 / 2, -1 / 2, 0));
             //if (Physics.Raycast(ARCamera.ScreenPointToRay(new Vector3(-1 / 2, -1 / 2, 0))))
@@ -71,9 +71,10 @@ public class ObjectMoverManagerScript : MonoBehaviour
             //    Debug.Log("Float Place");
             //}
             //Debug.Log(TargetObject.transform.position);
-
+            
 
             //RotateObjectLogic
+            /*
             if (Input.touchCount > 0)
             {
                 Touch = Input.GetTouch(0);
@@ -85,6 +86,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
                     Debug.Log("Rotate " + RotationY);
                 }
             }
+            */
 
             //ScalingObjectLogic
             if (Input.touchCount == 2)
@@ -128,37 +130,44 @@ public class ObjectMoverManagerScript : MonoBehaviour
             }
 
             //RotationScript
-            //RotationFactor = MoveAwaySlider.value;
-            //TargetObject.transform.eulerAngles = new Vector3(0 , RotationFactor , 0);
+            RotationFactor = RotateSlider.value;
+            TargetObject.transform.eulerAngles = new Vector3(0 , RotationFactor , 0);
 
 
             //TargetObject.transform.position = EmptyObject.transform.position;
 
             //Touch to move Script
-            //if (Input.touchCount == 1)
-            //{
-            //    hitUI = 0;
-            //    foreach (Touch touch in Input.touches)
-            //    {
-            //        int touchID = touch.fingerId;
-            //        if (EventSystem.current.IsPointerOverGameObject(touchID))
-            //        {
-            //            hitUI += 1;
-            //            Debug.Log("amongus");
-            //        }
-            //        Debug.Log("dwad");
-            //    }
-
-            //    if (hitUI == 0)
-            //    {
-            //        Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
-            //        if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
-            //        {
-            //            hitPose = hits[0].pose;
-            //            TargetObject.transform.position = hitPose.position;
-            //        }
-            //    }
-            //}
+            if (Input.touchCount == 1)
+            {
+                hitUI = 0;
+                foreach (Touch touch in Input.touches)
+                {
+                    int touchID = touch.fingerId;
+                    if (EventSystem.current.IsPointerOverGameObject(touchID))
+                    {
+                        hitUI += 1;
+                        Debug.Log("amongus");
+                    }
+                    Debug.Log("dwad");
+                }
+                
+                if (hitUI == 0)
+                {
+                    Ray ray = ARCamera.ScreenPointToRay(Input.GetTouch(0).position);
+                    if (raycastManager.Raycast(ray, hits, TrackableType.Planes))
+                    {
+                        hitPose = hits[0].pose;
+                        TargetObject.transform.position = hitPose.position;
+                    }
+                    else
+                    {
+                        float MoveAwayFactor = MoveAwaySlider.value;
+                        Debug.Log(MoveAwayFactor);
+                        Debug.Log(ARCamera.transform.forward);
+                        TargetObject.transform.position = (ARCamera.transform.forward * MoveAwayFactor) + ARCamera.transform.position;
+                    }
+                }
+            }
         }
     }
 
@@ -169,7 +178,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
         {
             //Debug.Log("Able to move around");
             PainterManager.CanPaint = false;
-            //MoveAwayObject.SetActive(true);
+            RotateObject.SetActive(true);
+            MoveAwayObject.SetActive(true);
             PanelPullButton.GetComponent<Button>().enabled = false;
             ModeText.text = "Mode: Move";
         }
@@ -178,7 +188,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
             //TargetObject.transform.parent = null;
             //Debug.Log("Disable Movement");
             PainterManager.CanPaint = true;
-            //MoveAwayObject.SetActive(false);
+            RotateObject.SetActive(false);
+            MoveAwayObject.SetActive(false);
             PanelPullButton.GetComponent<Button>().enabled = true;
             ModeText.text = "Mode: Paint";
         }
