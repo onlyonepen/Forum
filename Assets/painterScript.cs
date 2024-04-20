@@ -58,7 +58,7 @@ public class painterScript : MonoBehaviour
 
     // Took the variable inits outside of the Start() and fixed the processing system so it actually works right
     // Dont change
-    private List<GameObject> listedModel = new List<GameObject>();
+    public List<GameObject> listedModel = new List<GameObject>();
     private List<Dictionary<Texture2D, Texture2D>> listedTextureDict = new List<Dictionary<Texture2D, Texture2D>>();
     private List<Dictionary<Texture2D, Texture2D>> listedReversedTextureDict = new List<Dictionary<Texture2D, Texture2D>>();
 
@@ -205,27 +205,32 @@ public class painterScript : MonoBehaviour
 
     public void ClearColor()
     {
-        List<Texture2D> appliedTextures = new List<Texture2D>();
-        Transform trainsform = Model.transform.GetChild(0);
-        foreach (Transform childTransform in trainsform) {
-            if (childTransform.gameObject.GetComponent<Renderer>() != null) {
-                Material material = childTransform.gameObject.GetComponent<Renderer>().material;
-                Texture2D tex = (Texture2D)material.mainTexture;
-                if (!appliedTextures.Contains(tex))
+        if (Model != null)
+        {
+            List<Texture2D> appliedTextures = new List<Texture2D>();
+            Transform trainsform = Model.transform.GetChild(0);
+            foreach (Transform childTransform in trainsform)
+            {
+                if (childTransform.gameObject.GetComponent<Renderer>() != null)
                 {
-                    // Generate Brush
-                    colors = new Color32[tex.width*tex.height];
-                    for (int i = 0; i < tex.width*tex.height; i++)
+                    Material material = childTransform.gameObject.GetComponent<Renderer>().material;
+                    Texture2D tex = (Texture2D)material.mainTexture;
+                    if (!appliedTextures.Contains(tex))
                     {
-                        colors[i] = Color.white;
+                        // Generate Brush
+                        colors = new Color32[tex.width * tex.height];
+                        for (int i = 0; i < tex.width * tex.height; i++)
+                        {
+                            colors[i] = Color.white;
+                        }
+
+                        // Apply textures
+                        tex.SetPixels32(colors);
+                        tex.Apply();
+                        appliedTextures.Add(tex);
                     }
 
-                    // Apply textures
-                    tex.SetPixels32(colors);
-                    tex.Apply();
-                    appliedTextures.Add(tex);
                 }
-
             }
         }
     }
@@ -299,25 +304,28 @@ public class painterScript : MonoBehaviour
 
     public void SwitchModel(int number)
     {
-        Model.tag = "Untagged";
-        if (number > -1)
+        if (Model != null)
         {
-            index = number;
+            Model.tag = "Untagged";
+            if (number > -1)
+            {
+                index = number;
+            }
+            else if (number == -1)
+            {
+                index = (index + 1) % listedModel.Count;
+            }
+            else if (number == -2)
+            {
+                index = index == 0 ? listedModel.Count - 1 : index - 1;
+            }
+            ToggleColliders();
+            SwitchTextureDicts();
+            Model = listedModel[index];
+            Model.tag = "TargetObject";
+            ToggleColliders();
+            CurrentModelText.text = ("CurrentModel :<br>" + Model.name);
         }
-        else if (number == -1)
-        {
-            index = (index + 1) % listedModel.Count;
-        }
-        else if (number == -2)
-        {
-            index = index == 0 ? listedModel.Count - 1 : index - 1;
-        }
-        ToggleColliders();
-        SwitchTextureDicts();
-        Model = listedModel[index];
-        Model.tag = "TargetObject";
-        ToggleColliders();
-        CurrentModelText.text = ("CurrentModel :<br>" + Model.name);
     }
 
     // Also toggle outline component
@@ -394,5 +402,39 @@ public class painterScript : MonoBehaviour
         }
 
         SwitchModel(listedTextureDict.Count - 1);
+    }
+
+    public void DeleteCurrentModel()
+    {
+        int deleteIndex = index;
+        if (Model != null)
+        {
+            if (listedModel.Count != 1)
+            {
+                if (index == listedModel.Count - 1)
+                {
+                    SwitchModel(0);
+                }
+                else
+                {
+                    SwitchModel(index + 1);
+                }
+            }
+            else
+            {
+                CurrentModelText.text = ("CurrentModel :<br>" + "None selected");
+            }
+
+            listedDictKeys.RemoveAt(deleteIndex);
+            listedReversedTextureDict.RemoveAt(deleteIndex);
+            listedTextureDict.RemoveAt(deleteIndex);
+            GameObject destroyModel = listedModel[deleteIndex];
+            listedModel.RemoveAt(deleteIndex);
+            Destroy(destroyModel);
+            if (index != 0)
+            {
+                index -= 1;
+            }
+        }
     }
 }

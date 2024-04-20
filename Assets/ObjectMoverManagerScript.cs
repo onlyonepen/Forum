@@ -55,7 +55,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
     void Update()
     {
         TargetObject = GameObject.FindGameObjectWithTag("TargetObject");
-        if (IsInMoveState == true)
+        if (IsInMoveState == true && TargetObject != null)
         {
             TargetObject.transform.position = (ARCamera.transform.eulerAngles.normalized * MaxDistance) + ARCamera.transform.position;
             //MoveObjectLogic
@@ -175,7 +175,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
         }
         if (!IsInMoveState)
         {
-            TargetObject.transform.parent = null;
+            //TargetObject.transform.parent = null;
             //Debug.Log("Disable Movement");
             PainterManager.CanPaint = true;
             //MoveAwayObject.SetActive(false);
