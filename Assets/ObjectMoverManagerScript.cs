@@ -42,6 +42,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
     Pose hitPose;
     List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
+    public GameObject MoveModeSlider;
+    public GameObject RotatederSlider;
     // Start is called before the first frame update
     void Start()
     {
@@ -161,7 +163,7 @@ public class ObjectMoverManagerScript : MonoBehaviour
                     }
                     else
                     {
-                        float MoveAwayFactor = MoveAwaySlider.value;
+                        float MoveAwayFactor = 2;
                         Debug.Log(MoveAwayFactor);
                         Debug.Log(ARCamera.transform.forward);
                         TargetObject.transform.position = (ARCamera.transform.forward * MoveAwayFactor) + ARCamera.transform.position;
@@ -182,6 +184,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
             MoveAwayObject.SetActive(true);
             PanelPullButton.GetComponent<Button>().enabled = false;
             ModeText.text = "Mode: Move";
+            MoveModeSlider.SetActive(true);
+            RotatederSlider.SetActive(true);
         }
         if (!IsInMoveState)
         {
@@ -192,6 +196,9 @@ public class ObjectMoverManagerScript : MonoBehaviour
             MoveAwayObject.SetActive(false);
             PanelPullButton.GetComponent<Button>().enabled = true;
             ModeText.text = "Mode: Paint";
+            MoveModeSlider.SetActive(false);
+            MoveModeSlider.SetActive(false);
+            RotatederSlider.SetActive(false);
         }
     }
 
