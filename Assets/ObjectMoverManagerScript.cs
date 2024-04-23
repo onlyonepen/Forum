@@ -17,10 +17,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
     public Camera ARCamera;
     bool IsInMoveState = false;
     public painterScript PainterManager;
-    public GameObject MoveAwayObject;
     public GameObject RotateObject;
     public GameObject PanelPullButton;
-    private Slider MoveAwaySlider;
     private Slider RotateSlider;
     public ARRaycastManager raycastManager;
     public TextMeshProUGUI ModeText;
@@ -42,15 +40,12 @@ public class ObjectMoverManagerScript : MonoBehaviour
     Pose hitPose;
     List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
-    public GameObject MoveModeSlider;
-    public GameObject RotatederSlider;
     // Start is called before the first frame update
     void Start()
     {
         EmptyObject = new GameObject("MovePoint");
         EmptyObject.transform.parent = ARCamera.transform;
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        MoveAwaySlider = MoveAwayObject.GetComponent<Slider>();
         RotateSlider = RotateObject.GetComponent<Slider>();
     }
 
@@ -181,11 +176,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
             //Debug.Log("Able to move around");
             PainterManager.CanPaint = false;
             RotateObject.SetActive(true);
-            MoveAwayObject.SetActive(true);
             PanelPullButton.GetComponent<Button>().enabled = false;
             ModeText.text = "Mode: Move";
-            MoveModeSlider.SetActive(true);
-            RotatederSlider.SetActive(true);
         }
         if (!IsInMoveState)
         {
@@ -193,12 +185,8 @@ public class ObjectMoverManagerScript : MonoBehaviour
             //Debug.Log("Disable Movement");
             PainterManager.CanPaint = true;
             RotateObject.SetActive(false);
-            MoveAwayObject.SetActive(false);
             PanelPullButton.GetComponent<Button>().enabled = true;
             ModeText.text = "Mode: Paint";
-            MoveModeSlider.SetActive(false);
-            MoveModeSlider.SetActive(false);
-            RotatederSlider.SetActive(false);
         }
     }
 

@@ -2189,13 +2189,10 @@ MonoBehaviour:
   MaxDistance: 10
   ARCamera: {fileID: 22732920}
   PainterManager: {fileID: 521848626}
-  MoveAwayObject: {fileID: 928796771}
   RotateObject: {fileID: 1811729484}
   PanelPullButton: {fileID: 2059227612}
   raycastManager: {fileID: 388525033}
   ModeText: {fileID: 2039556577}
-  MoveModeSlider: {fileID: 1447332289}
-  RotatederSlider: {fileID: 0}
 --- !u!1 &622860147
 GameObject:
   m_ObjectHideFlags: 0
