@@ -16,6 +16,7 @@ using UnityEngine.XR.ARCore;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class painterScript : MonoBehaviour
 {
@@ -50,9 +51,6 @@ public class painterScript : MonoBehaviour
     public Sprite Eraser;
     public GameObject MoverButton;
 
-    // Line drawer
-    public int continuesFramesPressed;
-
     public Texture2D brush;
     public float sizeDecimal;
 
@@ -77,9 +75,18 @@ public class painterScript : MonoBehaviour
     public TextMeshProUGUI CurrentModelText;
     public Color OutlineColor = Color.red;
 
+    
+
+    //Texture Gen settings
+    [SerializeField]
+    private int generatedQuality;
+
     void Start()
     {
-        fcp.onColorChange.AddListener(OnChangeColor);
+        if (fcp != null)
+        {
+            fcp.onColorChange.AddListener(OnChangeColor);
+        }
 
         PaintSizeManager(50);
     }
@@ -94,13 +101,27 @@ public class painterScript : MonoBehaviour
         }
         if (CanPaint == true)
         {
-
             if (Input.touchCount > 0)
-            {
-                continuesFramesPressed += 1;
-                Touch touch = Input.GetTouch(0);
-                TouchRay = cam.ScreenPointToRay(touch.position);
+            {   
+                int hitUI = 0;
+                foreach (Touch checkTouch in Input.touches)
+                {
+                    int touchID = checkTouch.fingerId;
+                    if (EventSystem.current.IsPointerOverGameObject(touchID))
+                    {
+                        hitUI += 1;
+                    }
+                }
 
+                if (hitUI > 0)
+                {
+                    Debug.Log("Hit Ui");
+                    return;
+                }
+
+                Touch touch = Input.GetTouch(0);
+
+                TouchRay = cam.ScreenPointToRay(touch.position);
                 if (!Physics.Raycast(TouchRay, out hit))
                 {
                     Debug.Log("Not hit");
@@ -110,13 +131,11 @@ public class painterScript : MonoBehaviour
                 ApplyPaintToHitpoint(hit);
                 
             }
-            else
-            {
-                continuesFramesPressed = 0;
-            }
         }
-        fcp.color = CurrentColor;
-        Transparentcy = CurrentColor.a;
+        if (fcp != null)
+        {
+            fcp.color = CurrentColor;
+        }
 
         /*
         // Code for testing on PC
@@ -219,7 +238,7 @@ public class painterScript : MonoBehaviour
                         colors = new Color32[tex.width * tex.height];
                         for (int i = 0; i < tex.width * tex.height; i++)
                         {
-                            colors[i] = Color.white;
+                            colors[i] = CurrentColor;
                         }
 
                         // Apply textures
@@ -367,13 +386,36 @@ public class painterScript : MonoBehaviour
                 MeshFilter meshFilter = childTransform.gameObject.GetComponent<MeshFilter>();
                 collider.sharedMesh = meshFilter.mesh;
             }
+            else
+            {
+                break;
+            }
 
             //For further development, change texture to be writable (by cloning texture to seperate one, for reverting and saving also)
             // Note: I think we did the above already
 
             // Will check if texture was already clone so we don't clone textures more than once
             if (childTransform.gameObject.GetComponent<Renderer>() != null) {
+                Debug.Log("yes renderer");
                 Material material = childTransform.gameObject.GetComponent<Renderer>().material;
+                if (material.GetTexture("_MainTex") == null)
+                {
+                    Debug.Log("No Texture");
+                    
+                    Texture2D generatedMainTexture = new Texture2D(generatedQuality, generatedQuality);
+                    colors = new Color32[generatedQuality * generatedQuality];
+                    for (int i = 0; i < generatedQuality * generatedQuality; i++)
+                    {
+                        colors[i] = CurrentColor;
+                    }
+
+                    // Apply textures
+                    generatedMainTexture.SetPixels32(colors);
+                    generatedMainTexture.Apply();
+                    material.SetTexture("_MainTex", generatedMainTexture);
+                    Debug.Log("generatedMainTexture");
+                }
+
                 Texture2D mainTexture = (Texture2D)material.mainTexture;
                 dictKeys = new List<Texture2D>(textureDict.Keys);
                 if (dictKeys.Contains(mainTexture)) {
@@ -387,11 +429,10 @@ public class painterScript : MonoBehaviour
                     textureDict.Add(mainTexture, clone);
                     material.SetTexture("_MainTex", clone);
                 }
-
+                Outline outlineComponent = childTransform.gameObject.AddComponent<Outline>();
+                outlineComponent.outlineMode = Outline.Mode.OutlineVisible;
+                outlineComponent.outlineColor = OutlineColor;
             }
-            Outline outlineComponent = childTransform.gameObject.AddComponent<Outline>();
-            outlineComponent.outlineMode = Outline.Mode.OutlineVisible;
-            outlineComponent.outlineColor = OutlineColor;
         }
         dictKeys = new List<Texture2D>(textureDict.Keys);
         // Create reversed dictionary for erase lookup
